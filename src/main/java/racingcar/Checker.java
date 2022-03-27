@@ -9,23 +9,22 @@ public class Checker {
     private static final String COMMA = ",";
     private static final int MAX_NAME_LENGTH = 5;
     private static final String IS_SPECIAL_LETTER = "[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]*";
+    private static final int LAST_INDEX_CONSTANT = 1;
 
-    public void isContainAnotherSpecialLetter(String userInput) {
-        for (int index = INITIAL_INDEX; index < userInput.length() - 1; index++) {
-            String oneLetter = userInput.substring(index, index + 1);
-            if (!oneLetter.matches(IS_SPECIAL_LETTER)) {
-                if (!oneLetter.equals(COMMA)) {
-                    throw new IllegalArgumentException();
-                }
+    public static void containAnotherSpecialLetterChecker(String userInput) {
+        for (int index = INITIAL_INDEX; index < userInput.length() - LAST_INDEX_CONSTANT; index++) {
+            String oneLetter = userInput.substring(index, index + LAST_INDEX_CONSTANT);
+            if (!oneLetter.matches(IS_SPECIAL_LETTER) && !oneLetter.equals(COMMA)) {
+                throw new IllegalArgumentException();
             }
         }
     }
 
-    public void isContainSameName(String userInput) {
+    public static void containSameNameChecker(String userInput) {
         StringTokenizer st = new StringTokenizer(userInput, COMMA);
         List<String> nameList = new ArrayList<>();
 
-        int count = st.countTokens() - 1;
+        int count = st.countTokens() - LAST_INDEX_CONSTANT;
         for (int index = INITIAL_INDEX; index < st.countTokens(); index++) {
             nameList.add(st.nextToken());
         }
@@ -42,7 +41,7 @@ public class Checker {
         }
     }
 
-    public void userInputIsMoreThanFiveLetters(String userInput) {
+    public static void userInputIsMoreThanFiveLettersChecker(String userInput) {
         StringTokenizer st = new StringTokenizer(userInput, COMMA);
         while (st.hasMoreTokens()) {
             String str = st.nextToken();
@@ -52,7 +51,7 @@ public class Checker {
         }
     }
 
-    public int userInputNumberChecker(String userInput) {
+    public static int userInputNumberChecker(String userInput) {
         int userInputToInt;
         try {
             userInputToInt = Integer.parseInt(userInput);
@@ -60,5 +59,9 @@ public class Checker {
             throw new IllegalArgumentException();
         }
         return userInputToInt;
+    }
+
+    public static boolean isSameWithPosition(int compareNumber, Car car) {
+        return compareNumber == car.getPosition();
     }
 }
